@@ -1065,7 +1065,9 @@ LOCALPROC WriteMSVCXMLSolutionFile(void)
 		WriteDestFileLn(
 			"Microsoft Visual Studio Solution File,"
 			" Format Version 12.00");
-		if (ide_vers >= 15000) {
+		if (ide_vers >= 16000) {
+			WriteDestFileLn("# Visual Studio Version 16");
+		} else if (ide_vers >= 15000) {
 			WriteDestFileLn("# Visual Studio 15");
 		} else if (ide_vers >= 14000) {
 			WriteDestFileLn("# Visual Studio 14");
@@ -1178,10 +1180,10 @@ LOCALPROC WriteMSVCXMLSolutionFile(void)
 			--DestFileIndent;
 			WriteDestFileLn("EndGlobalSection");
 			if (ide_vers < 7100) {
-				WriteCStrToDestFile(
+				WriteDestFileLn(
 					"GlobalSection(ProjectDependencies)"
 					" = postSolution");
-				WriteCStrToDestFile("EndGlobalSection");
+				WriteDestFileLn("EndGlobalSection");
 			}
 			WriteDestFileLn(
 				"GlobalSection(ProjectConfiguration) = postSolution");
@@ -1521,7 +1523,9 @@ LOCALPROC WriteMSVCXML10ProjectFile(void)
 	WriteBgnDestFileLn();
 	WriteCStrToDestFile(
 		"<Project DefaultTargets=\"Build\"");
-	if (ide_vers >= 15000) {
+	if (ide_vers >= 16000) {
+		/* moved to VCProjectVersion */
+	} else if (ide_vers >= 15000) {
 		WriteCStrToDestFile(
 			" ToolsVersion=\"15.0\"");
 	} else if (ide_vers >= 14000) {
@@ -1559,12 +1563,19 @@ LOCALPROC WriteMSVCXML10ProjectFile(void)
 
 		WriteDestFileLn("<PropertyGroup Label=\"Globals\">");
 		++DestFileIndent;
+			if (ide_vers >= 16000) {
+				WriteXMLtagBeginValEndLine(
+					"VCProjectVersion", "16.0");
+			}
 			WriteXMLtagBeginValEndLine("ProjectGuid",
 				"{00010000-0000-0000-0000-000000000000}");
 			WriteXMLtagBeginValEndLine("Keyword", "Win32Proj");
 			WriteXMLtagBeginProcValEndLine("RootNamespace",
 				WriteStrAppAbbrev);
-			if (ide_vers >= 15000) {
+			if (ide_vers >= 16000) {
+				WriteXMLtagBeginValEndLine(
+					"WindowsTargetPlatformVersion", "10.0");
+			} else if (ide_vers >= 15000) {
 				WriteXMLtagBeginValEndLine(
 					"WindowsTargetPlatformVersion", "10.0.14393.0");
 			}
@@ -1588,7 +1599,10 @@ LOCALPROC WriteMSVCXML10ProjectFile(void)
 					"false");
 			}
 			if (ide_vers >= 11000) {
-				if (ide_vers >= 14000) {
+				if (ide_vers >= 16000) {
+					WriteXMLtagBeginValEndLine("PlatformToolset",
+						"v142");
+				} else if (ide_vers >= 15000) {
 					WriteXMLtagBeginValEndLine("PlatformToolset",
 						"v141");
 				} else if (ide_vers >= 14000) {

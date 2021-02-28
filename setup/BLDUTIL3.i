@@ -33,12 +33,12 @@ LOCALPROC WritepDtString(void)
 
 LOCALPROC WriteMaintainerName(void)
 {
-	WriteCStrToDestFile(kMaintainerName);
+	WriteCStrToDestFile(vMaintainerName);
 }
 
 LOCALPROC WriteHomePage(void)
 {
-	WriteCStrToDestFile(kStrHomePage);
+	WriteCStrToDestFile(vHomePage);
 }
 
 /* end of default value of options */
@@ -52,7 +52,19 @@ LOCALPROC WriteVersionStr(void)
 
 LOCALPROC WriteAppVariationStr(void)
 {
-	WriteCStrToDestFile(vVariationName);
+	if (nullpr != vVariationName) {
+		WriteCStrToDestFile(vVariationName);
+	} else {
+		WriteCStrToDestFile(vStrAppAbbrev);
+		WriteCStrToDestFile("-");
+		WriteNUimrToDestFile(MajorVersion, 2);
+		WriteCStrToDestFile(".");
+		WriteNUimrToDestFile(MinorVersion, 2);
+		WriteCStrToDestFile("-");
+		/* WriteCStrToDestFile(GetIdeName(cur_ide)); */
+		WriteCStrToDestFile(GetTargetName(cur_targ));
+		/* WriteCStrToDestFile(GetDbgLvlName(gbo_dbg)); */
+	}
 }
 
 LOCALPROC WriteAppCopyrightYearStr(void)
@@ -221,9 +233,9 @@ LOCALPROC WriteCDefQuote(char *s, MyProc p)
 	WriteEndDestFileLn();
 }
 
-LOCALPROC WriteWrongCNFGGLOB(void)
+LOCALPROC WriteWrongCNFUIALL(void)
 {
-	WriteDestFileLn("#error \"wrong CNFGGLOB.h\"");
+	WriteDestFileLn("#error \"wrong CNFUIALL.h\"");
 }
 
 LOCALPROC WriteCheckPreDef(char *s)
@@ -232,7 +244,7 @@ LOCALPROC WriteCheckPreDef(char *s)
 	WriteCStrToDestFile("#ifndef ");
 	WriteCStrToDestFile(s);
 	WriteEndDestFileLn();
-	WriteWrongCNFGGLOB();
+	WriteWrongCNFUIALL();
 	WriteDestFileLn("#endif");
 }
 
@@ -242,7 +254,7 @@ LOCALPROC WriteCheckPreNDef(char *s)
 	WriteCStrToDestFile("#ifdef ");
 	WriteCStrToDestFile(s);
 	WriteEndDestFileLn();
-	WriteWrongCNFGGLOB();
+	WriteWrongCNFUIALL();
 	WriteDestFileLn("#endif");
 }
 
@@ -693,21 +705,22 @@ LOCALPROC WriteMainRsrcSrcPath(void)
 
 LOCALPROC WriteMainRsrcObjName(void)
 {
-#if (gbk_ide_msv == cur_ide) \
-	|| (gbk_ide_lcc == cur_ide) \
-	|| (gbk_ide_dvc == cur_ide) \
-	|| (gbk_ide_cyg == cur_ide) \
-	|| (gbk_ide_mgw == cur_ide) \
-	|| (gbk_ide_mvc == cur_ide) \
-	|| (gbk_ide_dmc == cur_ide) \
-	|| (gbk_ide_dkp == cur_ide) \
-	|| (gbk_ide_plc == cur_ide)
-	WriteCStrToDestFile("main.res");
-#endif
-
-#if (gbk_ide_mpw == cur_ide)
-	WriteCStrToDestFile("main.rsrc");
-#endif
+	switch (cur_ide) {
+		case gbk_ide_msv:
+		case gbk_ide_lcc:
+		case gbk_ide_dvc:
+		case gbk_ide_cyg:
+		case gbk_ide_mgw:
+		case gbk_ide_mvc:
+		case gbk_ide_dmc:
+		case gbk_ide_dkp:
+		case gbk_ide_plc:
+			WriteCStrToDestFile("main.res");
+			break;
+		case gbk_ide_mpw:
+			WriteCStrToDestFile("main.rsrc");
+			break;
+	}
 }
 
 LOCALPROC WriteMainRsrcObjPath(void)
@@ -716,26 +729,26 @@ LOCALPROC WriteMainRsrcObjPath(void)
 		WriteMainRsrcObjName);
 }
 
-LOCALPROC WriteCNFGGLOBName(void)
+LOCALPROC WriteCNFUIOSGName(void)
 {
-	WriteCStrToDestFile("CNFGGLOB.h");
+	WriteCStrToDestFile("CNFUIOSG.h");
 }
 
-LOCALPROC WriteCNFGGLOBPath(void)
+LOCALPROC WriteCNFUIOSGPath(void)
 {
 	WriteFileInDirToDestFile0(Write_cfg_d_ToDestFile,
-		WriteCNFGGLOBName);
+		WriteCNFUIOSGName);
 }
 
-LOCALPROC WriteCNFGRAPIName(void)
+LOCALPROC WriteCNFUIALLName(void)
 {
-	WriteCStrToDestFile("CNFGRAPI.h");
+	WriteCStrToDestFile("CNFUIALL.h");
 }
 
-LOCALPROC WriteCNFGRAPIPath(void)
+LOCALPROC WriteCNFUIALLPath(void)
 {
 	WriteFileInDirToDestFile0(Write_cfg_d_ToDestFile,
-		WriteCNFGRAPIName);
+		WriteCNFUIALLName);
 }
 
 LOCALPROC WritePathArgInMakeCmnd(MyProc p)
@@ -1023,7 +1036,6 @@ LOCALPROC WriteEchoToNewFile(MyProc ptext, MyProc pto, blnr newline)
 			WriteCStrToDestFile("\" >");
 			WritePathArgInMakeCmnd(pto);
 			break;
-			break;
 		case gbk_ide_cyg:
 		case gbk_ide_snc:
 		case gbk_ide_dkp:
@@ -1067,8 +1079,14 @@ LOCALPROC WriteCompileCExec(void)
 		case gbk_ide_bgc:
 		case gbk_ide_mvc:
 		case gbk_ide_cyg:
-		case gbk_ide_xcd:
 			WriteCStrToDestFile("gcc");
+			break;
+		case gbk_ide_xcd:
+			if (ide_vers >= 12100) {
+				WriteCStrToDestFile("clang");
+			} else {
+				WriteCStrToDestFile("gcc");
+			}
 			break;
 		case gbk_ide_snc:
 		case gbk_ide_ccc:
@@ -1103,7 +1121,7 @@ LOCALPROC WriteCompileCExec(void)
 }
 
 LOCALPROC WriteCompileC(MyProc psrc, MyProc pobj,
-	blnr UseAPI)
+	blnr UseAPI, blnr Fast)
 {
 	WriteBgnDestFileLn();
 	switch (cur_ide) {
@@ -1122,7 +1140,15 @@ LOCALPROC WriteCompileC(MyProc psrc, MyProc pobj,
 			WritePathArgInMakeCmnd(pobj);
 			WriteSpaceToDestFile();
 			if (! UseAPI) {
-				WriteMakeVar("mk_COptions");
+				if (Fast
+					&& (CurOfficialBin)
+					&& (gbk_ide_xcd == cur_ide)
+					&& (gbk_cpufam_a64 == gbo_cpufam))
+				{
+					WriteMakeVar("mk_COptionsFast");
+				} else {
+					WriteMakeVar("mk_COptions");
+				}
 			} else {
 				if (gbk_ide_xcd == cur_ide)
 				{

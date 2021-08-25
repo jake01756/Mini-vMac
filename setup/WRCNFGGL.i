@@ -15,6 +15,7 @@
 
 /*
 	WRite "CNFGGLob.h"
+		(renamed to "CNFUIALL.h")
 */
 
 
@@ -31,14 +32,12 @@ LOCALPROC WriteConfigurationWarning(void)
 		"you know what you're doing.");
 }
 
-LOCALPROC WriteCommonCNFGGLOBContents(void)
+LOCALPROC WriteCommonCNFUIALLContents(void)
 {
 	WriteDestFileLn("/*");
 	++DestFileIndent;
 		WriteDestFileLn(
-			"Configuration options used by both platform specific");
-		WriteDestFileLn(
-			"and platform independent code.");
+			"see comment in OSGCOMUI.h");
 		WriteConfigurationWarning();
 	--DestFileIndent;
 	WriteDestFileLn("*/");
@@ -47,7 +46,7 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 	WriteDestFileLn("/* adapt to current compiler/host processor */");
 
 	if (gbk_ide_mw8 == cur_ide) {
-		WriteDestFileLn("/* make sure this is correct CNFGGLOB */");
+		WriteDestFileLn("/* make sure this is correct CNFUIALL */");
 
 		WriteCheckPreDef("__MWERKS__");
 		switch (gbo_cpufam) {
@@ -192,6 +191,24 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 		}
 		WriteDestFileLn(
 			"#define my_align_8 __attribute__ ((aligned (8)))");
+	} else if (gbk_ide_xcd == cur_ide) {
+		if (CurOfficialBin) {
+			if (gbk_cpufam_a64 == gbo_cpufam) {
+				WriteDestFileLn("#define BigEndianUnaligned 0");
+				WriteDestFileLn("#define LittleEndianUnaligned 1");
+
+				WriteDestFileLn("#define my_cond_rare(x) "
+					"(__builtin_expect(x, 0))");
+				WriteDestFileLn("#define Have_ASR 1");
+
+				WriteDestFileLn("#define HaveUi6Div 1");
+
+				WriteDestFileLn("#define HaveGlbReg 1");
+
+				WriteDestFileLn(
+					"#define my_align_8 __attribute__ ((aligned (8)))");
+			}
+		}
 	}
 
 	WriteCompCondBool("SmallGlobals", gbk_cpufam_68k == gbo_cpufam);
@@ -240,18 +257,18 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 			" applied to unsigned type warning */");
 		WriteDestFileLn("#pragma warning(disable : 4146)");
 
-	if (cur_mIIorIIX
-		|| (em_cpu_vers >= 2))
-	{
-		/* C4127: conditional expression is constant */
-		/*
-			C4701: local variable may have been used without having
-			been initialized
-		*/
-		WriteBlankLineToDestFile();
-		WriteDestFileLn("/* more warnings */");
-		WriteDestFileLn("#pragma warning(disable : 4127 4701)");
-	}
+		if (cur_mIIorIIX
+			|| (em_cpu_vers >= 2))
+		{
+			/* C4127: conditional expression is constant */
+			/*
+				C4701: local variable may have been used without having
+				been initialized
+			*/
+			WriteBlankLineToDestFile();
+			WriteDestFileLn("/* more warnings */");
+			WriteDestFileLn("#pragma warning(disable : 4127 4701)");
+		}
 
 	} else if (gbk_ide_plc == cur_ide) {
 		WriteBlankLineToDestFile();
@@ -310,7 +327,9 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 
 	/* (ui5b)0 - (ui5b)1 == (ui5b)4294967295 */
 	WriteBlankLineToDestFile();
-	if (gbk_cpufam_x64 == gbo_cpufam) {
+	if ((gbk_cpufam_x64 == gbo_cpufam)
+		|| (gbk_cpufam_a64 == gbo_cpufam))
+	{
 		WriteDestFileLn("typedef unsigned int ui5b;");
 	} else {
 		WriteDestFileLn("typedef unsigned long ui5b;");
@@ -319,7 +338,9 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 
 	/* sizeof(si5b) == sizeof(ui5b) */
 	WriteBlankLineToDestFile();
-	if (gbk_cpufam_x64 == gbo_cpufam) {
+	if ((gbk_cpufam_x64 == gbo_cpufam)
+		|| (gbk_cpufam_a64 == gbo_cpufam))
+	{
 		WriteDestFileLn("typedef int si5b;");
 	} else {
 		WriteDestFileLn("typedef long si5b;");
@@ -416,6 +437,16 @@ LOCALPROC WriteCommonCNFGGLOBContents(void)
 		WriteDestFileLn(
 			"#define MySwapUi5r(x) ((ui5r)__builtin_bswap32(x))");
 		WriteDestFileLn("#define HaveMySwapUi5r 1");
+	} else if (gbk_ide_xcd == cur_ide) {
+		if (CurOfficialBin) {
+			if (gbk_cpufam_a64 == gbo_cpufam) {
+				WriteBlankLineToDestFile();
+				WriteDestFileLn(
+					"#define MySwapUi5r(x)"
+					" ((ui5r)__builtin_bswap32(x))");
+				WriteDestFileLn("#define HaveMySwapUi5r 1");
+			}
+		}
 	}
 }
 

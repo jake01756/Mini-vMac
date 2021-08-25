@@ -242,10 +242,20 @@ LOCALPROC WriteMyInfoPListContents(void)
 		WritePListKeyString("CFBundlePackageType", "APPL");
 		WritePListKeyProcString("CFBundleShortVersionString",
 			WriteVersionStr);
+		if (gbk_cpufam_a64 == gbo_cpufam) {
+			WritePListBeginKeyArray("CFBundleSupportedPlatforms");
+				WritePListString("MacOSX");
+			WritePListEndKeyArray();
+		}
 		WritePListKeyProcString("CFBundleSignature",
 			Write_MacCreatorSigOrGeneric);
 		WritePListKeyProcString("CFBundleVersion", WriteVersionStr);
-		WritePListKeyString("LSRequiresCarbon", "1");
+		if (gbk_cpufam_a64 != gbo_cpufam) {
+			WritePListKeyString("LSRequiresCarbon", "1");
+		}
+		if (gbk_cpufam_a64 == gbo_cpufam) {
+			WritePListKeyString("LSMinimumSystemVersion", "10.15");
+		}
 		if (gbk_apifam_cco == gbo_apifam) {
 			WritePListKeyString("NSHighResolutionCapable", "1");
 		}

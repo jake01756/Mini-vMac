@@ -453,13 +453,18 @@ LOCALPROC DoSrcFileMakeCompileDeps(void)
 	if (DoSrcFile_gd()->depends != nullpr) {
 		DoSrcFile_gd()->depends(DoSrcDependsMakeCompile);
 	}
-	WriteMakeDependFile(WriteCNFGGLOBPath);
+/*
+	WriteMakeDependFile(WriteCNFUIALLPath);
+*/
 }
 
 LOCALPROC DoSrcFileMakeCompileBody(void)
 {
+	blnr UseAPI = (DoSrcFile_gd()->Flgm & kCSrcFlgmUseAPI) != 0;
+	blnr Fast = (DoSrcFile_gd()->Flgm & kCSrcFlgmSortFirst) != 0;
+
 	WriteCompileC(WriteSrcFileFilePath, WriteSrcFileObjPath,
-		(DoSrcFile_gd()->Flgm & kCSrcFlgmUseAPI) != 0);
+		UseAPI, Fast);
 }
 
 LOCALPROC DoSrcFileMakeCompile(void)

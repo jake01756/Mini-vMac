@@ -1036,12 +1036,20 @@ LOCALPROC WriteAPBXCDBuildSettings(void)
 					WriteDestFileLn(
 						"ARCHS = \"$(ARCHS_STANDARD_32_BIT)\";");
 				*/
-			} else if (gbk_cpufam_x64 == gbo_cpufam) {
+			} else
+			if (gbk_cpufam_x64 == gbo_cpufam) {
 				WriteDestFileLn("ARCHS = x86_64;");
-			} else {
+			} else
+			if (gbk_cpufam_a64 == gbo_cpufam) {
+				WriteDestFileLn("ARCHS = arm64;");
+			} else
+			{
 				WriteDestFileLn("ARCHS = ppc;");
 			}
 		}
+	}
+	if (ide_vers >= 12100) {
+		WriteDestFileLn("CODE_SIGN_IDENTITY = \"\";");
 	}
 	if (ide_vers >= 2100) { /*^*/
 		/*
@@ -1122,20 +1130,42 @@ LOCALPROC WriteAPBXCDBuildSettings(void)
 	if (ide_vers >= 1000) {
 		WriteDestFileLn("INSTALL_PATH = \"$(HOME)/Applications\";");
 	}
+	if (ide_vers >= 12100) {
+		if (gbk_cpufam_a64 != gbo_cpufam) {
+			WriteDestFileLn("LD_NO_PIE = YES;");
+		}
+	}
 	if (ide_vers < 1500) {
 		WriteAPBQuotedField("LIBRARY_SEARCH_PATHS", "");
 	}
 	if (ide_vers >= 2100) {
 		if (gbk_cpufam_ppc == gbo_cpufam) {
 			WriteDestFileLn("MACOSX_DEPLOYMENT_TARGET = 10.1;");
-		} else {
+		} else
+		if (gbk_cpufam_a64 == gbo_cpufam) {
+			WriteDestFileLn("MACOSX_DEPLOYMENT_TARGET = 10.15;");
+		} else
+		{
+			if (ide_vers >= 12100) {
+				WriteDestFileLn("MACOSX_DEPLOYMENT_TARGET = 10.9;");
+			} else
 			if (ide_vers >= 9000) {
 				WriteDestFileLn("MACOSX_DEPLOYMENT_TARGET = 10.6;");
-			} else {
+			} else
+			{
 				WriteDestFileLn("MACOSX_DEPLOYMENT_TARGET = 10.4;");
 			}
 		}
 	}
+
+	if (ide_vers >= 12100) {
+		WriteBgnDestFileLn();
+		WriteCStrToDestFile("PRODUCT_BUNDLE_IDENTIFIER = ");
+		WriteTheBundleIdentifier();
+		WriteCStrToDestFile(";");
+		WriteEndDestFileLn();
+	}
+
 	if (ide_vers < 1500) {
 		if (gbk_dbg_on == gbo_dbg) {
 			WriteAPBQuotedField("OPTIMIZATION_CFLAGS", "-O0");
@@ -1372,15 +1402,22 @@ LOCALPROC WriteXCDProjectFile(void)
 		WriteDestFileLn("archiveVersion = 1;");
 		WriteDestFileLn("classes = {");
 		WriteDestFileLn("};");
+		if (ide_vers >= 12100) {
+			WriteDestFileLn("objectVersion = 50;");
+		} else
 		if (ide_vers >= 3200) {
 			WriteDestFileLn("objectVersion = 46;");
-		} else if (ide_vers >= 3100) {
+		} else
+		if (ide_vers >= 3100) {
 			WriteDestFileLn("objectVersion = 45;");
-		} else if (ide_vers >= 2100) {
+		} else
+		if (ide_vers >= 2100) {
 			WriteDestFileLn("objectVersion = 42;");
-		} else if (ide_vers >= 1000) {
+		} else
+		if (ide_vers >= 1000) {
 			WriteDestFileLn("objectVersion = 39;");
-		} else {
+		} else
+		{
 			WriteDestFileLn("objectVersion = 38;");
 		}
 		WriteDestFileLn("objects = {");
@@ -1832,13 +1869,20 @@ LOCALPROC WriteXCDProjectFile(void)
 						0, WriteXCDconfigname);
 				WriteAPBXCDEndObjList();
 			}
+
+			if (ide_vers >= 12100) {
+				WriteDestFileLn(
+					"compatibilityVersion = \"Xcode 9.3\";");
+			} else
 			if (ide_vers >= 3200) {
 				WriteDestFileLn(
 					"compatibilityVersion = \"Xcode 3.2\";");
-			} else if (ide_vers >= 3100) {
+			} else
+			if (ide_vers >= 3100) {
 				WriteDestFileLn(
 					"compatibilityVersion = \"Xcode 3.1\";");
 			}
+
 			WriteDestFileLn("hasScannedForEncodings = 1;");
 
 			if (! HaveAPBXCD_IsaFirst) {
@@ -2049,9 +2093,12 @@ LOCALPROC WriteXCDProjectFile(void)
 
 LOCALPROC WriteOutDummyLangContents(void)
 {
+#if 0
 	WriteDestFileLn(
 		"This file is here because some archive extraction");
 	WriteDestFileLn("software will not create an empty directory.");
+#endif
+	WriteDestFileLn("dummy");
 }
 
 LOCALPROC WriteXCDSpecificFiles(void)

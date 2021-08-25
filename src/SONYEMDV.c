@@ -404,21 +404,23 @@ LOCALFUNC tMacErr vSonyNextPendingInsert(tDrive *Drive_No)
 #endif /* Sony_SupportDC42 */
 #if NonDiskProtect
 					if (! gotFormat) {
-						ui4r bbID = do_get_mem_word(
-							&Temp[0]);
 						ui4r drSigWord = do_get_mem_word(
 							&Temp[0x400]);
 
+#if 0 /* don't look at boot blocks */
+						ui4r bbID = do_get_mem_word(
+							&Temp[0]);
 						if ((0x4C4B == bbID) || (0 == bbID))
-						if ((0x4244 == drSigWord) /* HFS */
-							|| (0xD2D7 == drSigWord) /* MFS */
-							)
 						if ((Temp[0x0A] < 16)
 								/* length System name */
 							&& (Temp[0x1A] < 16)
 								/* length Finder name */
 							&& (Temp[0x2A] < 16)
 								/* length Macsbug name */
+							)
+#endif
+						if ((0x4244 == drSigWord) /* HFS */
+							|| (0xD2D7 == drSigWord) /* MFS */
 							)
 						if ((0x4244 != drSigWord)
 							|| (3 == do_get_mem_word(

@@ -147,12 +147,13 @@ LOCALPROC WriteCommonCNFUIOSGContents(void)
 			WriteDestFileLn("#include <unistd.h>");
 			WriteOSXLocalTalkCNFUIOSG();
 		}
-		if (gbk_cpufam_a64 != gbo_cpufam) {
-			WriteDestFileLn("#define UseAudioComp 0");
-		}
 		if ((gbk_ide_xcd == cur_ide) && (ide_vers >= 12100)) {
 			/* ok */
 		} else {
+			if (gbk_cpufam_a64 != gbo_cpufam) {
+				WriteDestFileLn("#define UseAudioComp 0");
+			}
+
 			/* use deprecated names */
 
 			WriteDestFileLn("#define MyNSPasteboardTypeString"

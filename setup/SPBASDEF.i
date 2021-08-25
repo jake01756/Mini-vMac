@@ -21,7 +21,7 @@
 #define kStrAppName "Mini vMac"
 #define kStrAppAbbrev "minivmac" /* [a-z0-9_]{1,8} */
 #define MajorVersion 37
-#define MinorVersion 02
+#define MinorVersion 03
 #define kStrCopyrightYear "2020"
 #define kMacCreatorSig "MnvM"
 #define kBundleIdentifier "com.gryphel.minivmac"

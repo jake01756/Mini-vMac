@@ -29,7 +29,7 @@ jobs:
       run: |
          gcc setup/tool.c -o setup_t
          ./setup_t -t lx64 > setup.sh
-         
+         . setup.sh
     - name: make
       run: make
     - name: make check

@@ -13,14 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: build setup tool
+    - name: build setup tool and configure it
       run: |
          gcc setup/tool.c -o setup_t
-         ./setup_t -t lx64 > setup.sh
+         ./setup_t -t lx64 -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M
+         > setup.sh
          . setup.sh
     - name: make
       run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck

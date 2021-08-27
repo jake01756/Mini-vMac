@@ -32,7 +32,7 @@ jobs:
         run: |
           cp setup_t downloads/setup_t
           mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
-          mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
+          #mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
           #echo 'charlie'  > charlie.html
 
       - name: uploading

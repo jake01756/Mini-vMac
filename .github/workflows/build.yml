@@ -35,6 +35,10 @@ jobs:
   windows:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
       - name: install required packages 
         run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: build setup tool
@@ -63,9 +67,24 @@ jobs:
       - name: moving files
         run: |
           mv minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
+  macos:
+    runs-on: macos-10.15
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: build setup tool
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
   release:
     runs-on: ubuntu-latest
-    needs: [windows, linux]
+    needs: [windows, linux, macos]
     steps:
       - name: uploading
         uses: actions/upload-artifact@v2

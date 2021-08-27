@@ -35,14 +35,30 @@ jobs:
   windows:
     runs-on: ubuntu-latest
     steps:
+      - name: install required packages 
+        run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
+      - name: build setup tool
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build win64
         run: |
-           sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
            #./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
            cp minivmac minivmac-36.04-win64-mII
+      - name: build win32
+        run: |
+           #./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           cp minivmac minivmac-36.04-win86-mII
 
       - name: moving files
         run: |

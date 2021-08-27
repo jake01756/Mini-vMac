@@ -84,6 +84,7 @@ jobs:
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
   release:
+    needs: [windows, macos, linux]
     runs-on: windows-latest
     steps:
       - name: uploading

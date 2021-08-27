@@ -19,8 +19,8 @@ jobs:
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
         run: |
-           echo "#define kMaintainerName "Jake Thomas" > setup/CONFIGUR.i
-           echo "#define kStrHomePage "https://github.com/jake01756/Mini-vMac" > setup/CONFIGUR.i
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" > setup/CONFIGUR.i
       - name: build linux x64
         run: |
            #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh

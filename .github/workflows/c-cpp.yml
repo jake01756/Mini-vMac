@@ -25,9 +25,18 @@ jobs:
          ./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
          . setup.sh
          make
-    - uses: actions/upload-artifact@v2
-      name: upload
-      #runs-on: ubuntu-latest
-      with:
-         name: Linux x64
-         path: minivmac-36.04-lx64-mII
+         
+    - name: Step 1 - Create a temporary artifact downloads folder
+      run: mkdir downloads
+
+    - name: step 2 - Add artifacts to publish to the temp folder
+      run: |
+        mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+        mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
+        echo 'charlie'  > charlie.html
+
+    - name: Step 3 - Use the Upload Artifact GitHub Action
+      uses: actions/upload-artifact@v2
+      with: 
+        name: builds
+        path: downloads

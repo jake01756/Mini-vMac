@@ -8,7 +8,7 @@ on:
 
 jobs:
   
-  build x64:
+  build-x64:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -39,7 +39,7 @@ jobs:
         with: 
           name: builds-x64
           path: downloads
-  build x86:
+  build-x86:
     runs-on: ubuntu-latest
     steps:
       - name: checkout

@@ -15,7 +15,7 @@ jobs:
         with:
           ref: master
       - name: install required packages 
-        run: sudo apt install mingw-w64 mingw-w32 clang
+        run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: build setup tool
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: build win64
         run: |
-           sudo apt install mingw-w64 mingw-w32 clang
+           sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
            #./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh

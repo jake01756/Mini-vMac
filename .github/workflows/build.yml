@@ -51,7 +51,7 @@ jobs:
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build win64
         run: |
-           #./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            sh setup.sh
            cmake
@@ -83,6 +83,30 @@ jobs:
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+      - name: build mac64
+        run: |
+           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-mc64-mII
+           mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII
+      - name: build mac86
+        run: |
+           #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-imch-mII
+           mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII
+      - name: build macppc
+        run: |
+           #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-mach-mII
+           mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII
   release:
     needs: [windows, macos, linux]
     runs-on: windows-latest

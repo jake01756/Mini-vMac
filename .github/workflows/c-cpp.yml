@@ -8,7 +8,7 @@ on:
 
 jobs:
   
-  build:
+  build x64:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -23,13 +23,7 @@ jobs:
            ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-      - name: build linux x86
-        run: |
-           ./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           #./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           . setup.sh
-           make
-
+  
       - name: preparing files
         run: mkdir -p downloads
 
@@ -43,5 +37,36 @@ jobs:
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 
-          name: builds
+          name: builds-x64
+          path: downloads
+  build x86:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: build setup tool
+        run: gcc setup/tool.c -m32 -o setup_t
+      - name: build linux x86
+        run: |
+           ./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           #./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+
+      - name: preparing files
+        run: mkdir -p downloads
+
+      - name: moving files
+        run: |
+          cp setup/setup_t downloads/setup_t
+          #mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+          mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
+          #echo 'charlie'  > charlie.html
+
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: builds-x86
           path: downloads

@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: build
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
     branches: [ master ]
 
 jobs:
-  
   build-x64:
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +20,7 @@ jobs:
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
         run: |
+           mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
       - name: build linux x64
@@ -30,23 +30,24 @@ jobs:
            . setup.sh
            make
            mv minivmac minivmac-36.04-lx64-mII
+           mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+  windows:
+    runs-on: windows-latest
+    steps:
       - name: build win64
         run: |
            #./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac minivmac-36.04-win64-mII
-      - name: preparing files
-        run: mkdir -p downloads
+           copy minivmac minivmac-36.04-win64-mII
 
       - name: moving files
         run: |
-          #cp setup_t downloads/setup_t
-          mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
-          mv minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
-          #mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
-
+          copy minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
+  release:
+    runs-on: ubuntu-latest
+    steps:
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 

@@ -48,7 +48,7 @@ jobs:
         with:
           ref: master
       - name: build setup tool
-        run: #gcc setup/tool.c -m32 -o setup_t
+        run: gcc setup/tool.c -m32 -o setup_t
       - name: build linux x86
         run: |
            #./setup_t -t lx86 -n "minivmac-36.04-lx86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh

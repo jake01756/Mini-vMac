@@ -7,10 +7,14 @@ on:
     branches: [ master ]
 
 jobs:
+  
   build:
     runs-on: ubuntu-latest
     steps:
-    
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
       - name: build setup tool
         run: gcc setup/tool.c -o setup_t
       - name: build linux x64
@@ -29,6 +33,7 @@ jobs:
 
       - name: moving files
         run: |
+          cp setup/setup_t downloads/setup_t
           mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
           mv minivmac-36.04-lx86-mII downloads/minivmac-36.04-lx86-mII
           #echo 'charlie'  > charlie.html

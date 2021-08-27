@@ -1,0 +1,63 @@
+name: build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-x64:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: install mingw-w64
+        run: sudo apt install mingw-w64
+      - name: build setup tool
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+      - name: build linux x64
+        run: |
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII
+           mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: build win64
+        run: |
+           #./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           copy minivmac minivmac-36.04-win64-mII
+
+      - name: moving files
+        run: |
+          copy minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: builds-x64
+          path: downloads
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Latest Builds"
+          files: |
+            downloads/*.*

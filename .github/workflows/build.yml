@@ -107,8 +107,14 @@ jobs:
            make
            mv minivmac minivmac-36.04-mach-mII
            mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII
+           
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: path/to/artifact/world.txt
   release:
-    needs: [windows, macos, linux]
+    #needs: [windows, macos, linux]
+    needs: [macos, linux]
     runs-on: windows-latest
     steps:
       - name: uploading

@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  linux:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run: 
+          name: install packages
+          command: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
+      - run:
+         name: build setup tool
+         command: gcc setup/tool.c -o setup_t
+      - run: 
+         name: configure dev options
+         command: |
+                mkdir -p downloads
+                echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+                echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+                echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+      - run:
+         name: build linux x64
+         command: |
+            #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+            ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+            . setup.sh
+            make
+            mv minivmac minivmac-36.04-lx64-mII
+            mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+  #windows:
+   # machine:
+    #  image: 
+    #steps:
+       #- checkout
+  release:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - run:
+         name: placeholder
+         command: uname -a
+
+workflows:
+  build: # name of your workflow
+    jobs:
+      - linux
+      #- windows
+      - release:
+          requires:
+           - linux # wait for build1 job to complete successfully before starting
+           #- windows
+           # see circleci.com/docs/2.0/workflows/ for more examples.

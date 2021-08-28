@@ -108,7 +108,7 @@ jobs:
           body: "These are the builds that were compiled during the last `git push` or merge."
           prerelease: true
           draft: false
-          tag: "latest"
+          tag_name: "latest"
           token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
             downloads/*.*

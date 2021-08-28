@@ -67,14 +67,14 @@ jobs:
            #make
            #mv minivmac.app minivmac-36.04-imch-mII
            #mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
-      - name: build macppc
-        run: |
-           #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           . setup.sh
-           make
-           mv minivmac.app minivmac-36.04-mach-mII
-           mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
+      #- name: build macppc
+      #  run: |
+      #     #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+      #     ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+      #     . setup.sh
+      #     make
+      #     mv minivmac.app minivmac-36.04-mach-mII
+      #     mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
            
       - uses: actions/cache@v2
         with:

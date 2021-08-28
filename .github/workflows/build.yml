@@ -32,42 +32,10 @@ jobs:
            make
            mv minivmac minivmac-36.04-lx64-mII
            mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
-  windows:
-    runs-on: windows-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/cache@v2
         with:
-          ref: master
-      #- name: install required packages 
-       # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
-      - name: build setup tool
-        run: gcc setup/tool.c -o tool.exe
-      - name: configure dev options
-        run: |
-           mkdir -p downloads
-           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
-           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
-      - name: build win64
-        run: |
-           #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           sh setup.sh
-           cmake
-           copy minivmac minivmac-36.04-win64-mII
-      - name: build win32
-        run: |
-           #./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           tool.exe -t wx86 -n "minivmac-36.04-win86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           sh setup.sh
-           cmake
-           copy minivmac minivmac-36.04-win86-mII
-
-      - name: moving files
-        run: |
-          copy minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
-          copy minivmac-36.04-win86-mII downloads/minivmac-36.04-win86-mII
+          path: downloads/*.*
+          key: linux
   macos:
     runs-on: macos-10.15
     steps:
@@ -90,7 +58,7 @@ jobs:
            . setup.sh
            make
            mv minivmac minivmac-36.04-mc64-mII
-           mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII
+           mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII.app
       - name: build mac86
         run: |
            #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
@@ -98,7 +66,7 @@ jobs:
            . setup.sh
            make
            mv minivmac minivmac-36.04-imch-mII
-           mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII
+           mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
       - name: build macppc
         run: |
            #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
@@ -106,17 +74,27 @@ jobs:
            . setup.sh
            make
            mv minivmac minivmac-36.04-mach-mII
-           mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII
+           mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
            
-      - uses: actions/upload-artifact@v2
+      - uses: actions/cache@v2
         with:
-          name: my-artifact
-          path: path/to/artifact/world.txt
+          path: downloads/*.*
+          key: macos
   release:
     #needs: [windows, macos, linux]
     needs: [macos, linux]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/cache@v2
+        id: linux
+        with:
+          path: downloads/
+          key: linux
+      - uses: actions/cache@v2
+        id: macos
+        with:
+          path: downloads/
+          key: macos
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 

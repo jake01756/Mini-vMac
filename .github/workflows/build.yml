@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: install required packages 
-        run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
+      #- name: install required packages 
+       # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: build setup tool
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
@@ -57,7 +57,7 @@ jobs:
            ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac minivmac-36.04-mc64-mII
+           mv minivmac.app minivmac-36.04-mc64-mII
            mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII.app
       - name: build mac86
         run: |
@@ -65,7 +65,7 @@ jobs:
            ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac minivmac-36.04-imch-mII
+           mv minivmac.app minivmac-36.04-imch-mII
            mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
       - name: build macppc
         run: |
@@ -73,7 +73,7 @@ jobs:
            ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac minivmac-36.04-mach-mII
+           mv minivmac.app minivmac-36.04-mach-mII
            mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
            
       - uses: actions/cache@v2

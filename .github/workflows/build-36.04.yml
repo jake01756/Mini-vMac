@@ -65,6 +65,7 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.2
         with:
           filename: builds.zip
+          directory: minivmac-36.04-mc64-mII.app
           type: zip
       - name: Upload
         uses: actions/upload-artifact@v2

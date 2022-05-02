@@ -33,9 +33,9 @@ jobs:
            make
            mv minivmac minivmac-36.04-lx64-mII
            mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: downloads/*
+          path: downloads/
           key: linux
   macos:
     runs-on: macos-10.15
@@ -77,21 +77,21 @@ jobs:
       #     mv minivmac.app minivmac-36.04-mach-mII
       #     mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
            
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: downloads/*
+          path: downloads/
           key: macos
   release:
     #needs: [windows, macos, linux]
     needs: [macos, linux]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: linux
         with:
           path: downloads/
           key: linux
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: macos
         with:
           path: downloads/
@@ -112,4 +112,4 @@ jobs:
           tag_name: "latest"
           token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
-            downloads/*.*
+            downloads/*

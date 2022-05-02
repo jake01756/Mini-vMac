@@ -35,7 +35,7 @@ jobs:
            mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
       - uses: actions/cache@v2
         with:
-          path: downloads/*.*
+          path: downloads/*
           key: linux
   macos:
     runs-on: macos-10.15
@@ -79,7 +79,7 @@ jobs:
            
       - uses: actions/cache@v2
         with:
-          path: downloads/*.*
+          path: downloads/*
           key: macos
   release:
     #needs: [windows, macos, linux]

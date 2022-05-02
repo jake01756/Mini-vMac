@@ -126,11 +126,11 @@ jobs:
         with:
           name: macos-builds
           path: builds/macos/
-      - name: Download Windows Builds
-        uses: actions/download-artifact@v3.0.0
-        with:
-          name: windows-builds
-          path: builds/windows/
+      #- name: Download Windows Builds
+       # uses: actions/download-artifact@v3.0.0
+        #with:
+         # name: windows-builds
+          #path: builds/windows/
       
       - name: Release
         uses: softprops/action-gh-release@v1

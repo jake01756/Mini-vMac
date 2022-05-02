@@ -14,7 +14,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: 36.04
       #- name: install required packages 
        # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: build setup tool
@@ -41,14 +41,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: linux-builds
-          path: minivmac-*
+          path: minivmac-36.04-*
   macos:
     runs-on: macos-10.15
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: 36.04
       - name: build setup tool
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
@@ -64,24 +64,6 @@ jobs:
            . setup.sh
            make
            mv minivmac.app minivmac-36.04-mc64-mII.app
-           #mv minivmac-36.04-mc64-mII.app downloads/minivmac-36.04-mac64-mII.app
-      #- name: build mac86
-      #  run: |
-      #     #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-      #     ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-      #     . setup.sh
-      #     make
-      #     mv minivmac.app minivmac-36.04-imch-mII.app
-      #     #mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
-      #- name: build macppc
-      #  run: |
-      #     #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-      #     ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-      #     . setup.sh
-      #     make
-      #     mv minivmac.app minivmac-36.04-mach-mII.app
-      #     mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
-           
       - uses: actions/cache@v3
         with:
           path: minivmac-*
@@ -91,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: macos-builds
-          path: minivmac-*
+          path: minivmac-36.04-*
   release:
     #needs: [windows, macos, linux]
     needs: [macos, linux]
@@ -101,14 +83,12 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: linux-builds
-          # Destination path
-          path: builds/
+          path: builds/linux/
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.0
         with:
           name: macos-builds
-          # Destination path
-          path: builds/
+          path: builds/macos/
       
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -121,7 +101,8 @@ jobs:
           tag_name: "latest"
           token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
-            builds/*
+            builds/macos/*
+            builds/linux/*
 
 
 

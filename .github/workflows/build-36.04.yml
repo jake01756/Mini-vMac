@@ -144,7 +144,7 @@ jobs:
           files: |
             builds/macos/*
             builds/linux/*
-
+            builds/windows/*
 
 
 

@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "36.04" ]
   pull_request:
-    branches: [ master ]
+    branches: [ "36.04" ]
   workflow_dispatch:
 
 jobs:

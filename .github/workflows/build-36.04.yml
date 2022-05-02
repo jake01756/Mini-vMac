@@ -59,6 +59,7 @@ jobs:
            ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
+           mkdir builds
            cp -r minivmac.app minivmac-36.04-mc64-mII.app
            mv minivmac-36.04-mc64-mII.app builds/minivmac-36.04-mc64-mII.app
            rm -r minivmac.app

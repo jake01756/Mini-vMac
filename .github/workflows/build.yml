@@ -65,14 +65,14 @@ jobs:
            make
            mv minivmac.app minivmac-36.04-mc64-mII.app
            #mv minivmac-36.04-mc64-mII.app downloads/minivmac-36.04-mac64-mII.app
-      - name: build mac86
-        run: |
-           #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           . setup.sh
-           make
-           mv minivmac.app minivmac-36.04-imch-mII.app
-           #mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
+      #- name: build mac86
+      #  run: |
+      #     #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+      #     ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+      #     . setup.sh
+      #     make
+      #     mv minivmac.app minivmac-36.04-imch-mII.app
+      #     #mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
       #- name: build macppc
       #  run: |
       #     #./setup_t -t mach -n "minivmac-36.04-mach-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh

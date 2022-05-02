@@ -73,6 +73,7 @@ jobs:
           path: builds.zip
   windows:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: checkout
         uses: actions/checkout@v2

@@ -33,10 +33,6 @@ jobs:
            make
            mv minivmac minivmac-36.04-lx64-mII
            #mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
-      - uses: actions/cache@v3
-        with:
-          path: minivmac-*
-          key: linux
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 
@@ -64,11 +60,7 @@ jobs:
            . setup.sh
            make
            mv minivmac.app minivmac-36.04-mc64-mII.app
-      - uses: actions/cache@v3
-        with:
-          path: minivmac-*
-          key: macos
-          
+           
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 
@@ -77,7 +69,7 @@ jobs:
   release:
     #needs: [windows, macos, linux]
     needs: [macos, linux]
-    runs-on: ubuntu-latest
+    runs-on: macos-10.15
     steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.0

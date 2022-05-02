@@ -1,4 +1,4 @@
-name: build
+name: build-36.04
 
 on:
   push:

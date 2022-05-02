@@ -37,6 +37,11 @@ jobs:
         with:
           path: minivmac-*
           key: linux
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: linux-builds
+          path: minivmac-*
   macos:
     runs-on: macos-10.15
     steps:
@@ -58,15 +63,15 @@ jobs:
            ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac.app minivmac-36.04-mc64-mII
-           #mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII.app
-      #- name: build mac86
-       # run: |
-        #   #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-         #  ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-          # . setup.sh
-           #make
-           #mv minivmac.app minivmac-36.04-imch-mII
+           mv minivmac.app minivmac-36.04-mc64-mII.app
+           #mv minivmac-36.04-mc64-mII.app downloads/minivmac-36.04-mac64-mII.app
+      - name: build mac86
+        run: |
+           #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t imch -n "minivmac-36.04-imch-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac.app minivmac-36.04-imch-mII.app
            #mv minivmac-36.04-imch-mII downloads/minivmac-36.04-mac86-mII.app
       #- name: build macppc
       #  run: |
@@ -74,33 +79,37 @@ jobs:
       #     ./setup_t -t mach -n "minivmac-36.04-mach-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
       #     . setup.sh
       #     make
-      #     mv minivmac.app minivmac-36.04-mach-mII
+      #     mv minivmac.app minivmac-36.04-mach-mII.app
       #     mv minivmac-36.04-mach-mII downloads/minivmac-36.04-ppc-mII.app
            
       - uses: actions/cache@v3
         with:
           path: minivmac-*
           key: macos
+          
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: macos-builds
+          path: minivmac-*
   release:
     #needs: [windows, macos, linux]
     needs: [macos, linux]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/cache@v3
-        id: linux
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
         with:
-          path: minivmac-*
-          key: linux
-      - uses: actions/cache@v3
-        id: macos
+          name: linux-builds
+          # Destination path
+          path: builds/
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
         with:
-          path: minivmac-*
-          key: macos
-      - name: uploading
-        uses: actions/upload-artifact@v2
-        with: 
-          name: builds-x64
-          path: minivmac-*
+          name: macos-builds
+          # Destination path
+          path: builds/
+      
       - name: Release
         uses: softprops/action-gh-release@v1
         #if: startsWith(github.ref, 'refs/tags/')
@@ -112,7 +121,7 @@ jobs:
           tag_name: "latest"
           token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
-            minivmac-*
+            builds/*
 
 
 

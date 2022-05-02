@@ -32,10 +32,10 @@ jobs:
            . setup.sh
            make
            mv minivmac minivmac-36.04-lx64-mII
-           mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+           #mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
       - uses: actions/cache@v3
         with:
-          path: downloads/
+          path: minivmac-*
           key: linux
   macos:
     runs-on: macos-10.15
@@ -59,7 +59,7 @@ jobs:
            . setup.sh
            make
            mv minivmac.app minivmac-36.04-mc64-mII
-           mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII.app
+           #mv minivmac-36.04-mc64-mII downloads/minivmac-36.04-mac64-mII.app
       #- name: build mac86
        # run: |
         #   #./setup_t -t imch -n "minivmac-36.04-imch-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
@@ -79,7 +79,7 @@ jobs:
            
       - uses: actions/cache@v3
         with:
-          path: downloads/
+          path: minivmac-*
           key: macos
   release:
     #needs: [windows, macos, linux]
@@ -89,12 +89,12 @@ jobs:
       - uses: actions/cache@v3
         id: linux
         with:
-          path: downloads/
+          path: minivmac-*
           key: linux
       - uses: actions/cache@v3
         id: macos
         with:
-          path: downloads/
+          path: minivmac-*
           key: macos
       - name: uploading
         uses: actions/upload-artifact@v2

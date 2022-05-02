@@ -66,57 +66,19 @@ jobs:
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.6.2
         with:
-          filename: minivmac-36.04-mc64-mII.zip
-          directory: builds
+          filename: builds.zip
+          path: builds
+          directory: .
           type: zip
       - name: Upload
         uses: actions/upload-artifact@v2
         with: 
           name: macos-builds
           path: builds.zip
-  windows:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-        with:
-          ref: 36.04
-      - name: build setup tool
-        run: gcc setup/tool.c -o setup_t
-      - name: configure dev options
-        run: |
-           mkdir -p downloads
-           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
-           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
-      - name: build win64
-                 #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-        run: |
-           ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           . setup.sh
-           make
-           cp minivmac minivmac-36.04-win64-mII
-      - name: build win32
-        run: |
-           #./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           ./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           . setup.sh
-           make
-           cp copy minivmac minivmac-36.04-win86-mII
-      - name: Move files
-        run: |
-          cp minivmac-36.04-win64-mII builds/minivmac-36.04-win64-mII
-          cp minivmac-36.04-win86-mII builds/minivmac-36.04-win86-mII
-          rm minivmac-*
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with: 
-          name: windows-builds
-          path: builds/
+          if-no-files-found: error
+  
   release:
-    needs: [windows, macos, linux]
-    #needs: [macos, linux]
+    needs: [macos, linux]
     runs-on: macos-10.15
     steps:
       - name: Download Linux Builds
@@ -129,12 +91,6 @@ jobs:
         with:
           name: macos-builds
           path: builds/macos/
-      #- name: Download Windows Builds
-       # uses: actions/download-artifact@v3.0.0
-        #with:
-         # name: windows-builds
-          #path: builds/windows/
-      
       - name: Release
         uses: softprops/action-gh-release@v1
         #if: startsWith(github.ref, 'refs/tags/')
@@ -148,15 +104,3 @@ jobs:
           files: |
             builds/macos/*
             builds/linux/*
-            builds/windows/*
-
-
-
-
-
-
-
-
-
-
-

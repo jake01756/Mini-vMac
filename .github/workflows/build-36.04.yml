@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: macos-builds
-          path: minivmac-36.04-mc64-mII.zip
+          path: builds.zip
   windows:
     runs-on: ubuntu-latest
     continue-on-error: true

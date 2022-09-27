@@ -27,12 +27,60 @@ jobs:
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build linux x64
         run: |
-           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           
+           #
+           # MAC PLUS BUILDS
+           #
+           
+           # soon
+           
+           #
+           # MAC II BUILDS
+           #
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-512x384" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 512 -vres 384 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-512x484" -m II -hres 512 -vres 384 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
-           mv minivmac minivmac-36.04-lx64-mII
-           #mv minivmac-36.04-lx64-mII downloads/minivmac-36.04-lx64-mII
+           mv minivmac minivmac-36.04-lx64-mII-512x384
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-640x400" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-640x400" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-640x400
+          
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-640x512" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-640x512" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-640x512
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-704x450" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 704 -vres 450 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-704x450" -m II -hres 704 -vres 450 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-704x450
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-832x525" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 832 -vres 525 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-832x525" -m II -hres 832 -vres 525 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-832x525
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-960x540" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 960 -vres 540 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-960x540" -m II -hres 960 -vres 540 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-960x540
+           
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-960x600" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 960 -vres 600 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mII-960x600" -m II -hres 960 -vres 600 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mv minivmac minivmac-36.04-lx64-mII-960x600
+           
+           
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 
@@ -55,13 +103,13 @@ jobs:
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build mac64
         run: |
-           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x512" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x512" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make
            mkdir builds
-           cp -r minivmac.app minivmac-36.04-mc64-mII.app
-           mv minivmac-36.04-mc64-mII.app builds/minivmac-36.04-mc64-mII.app
+           cp -r minivmac.app minivmac-36.04-mc64-mII-640x512.app
+           mv minivmac-36.04-mc64-mII-640x512.app builds/minivmac-36.04-mc64-mII-640x512.app
            rm -r minivmac.app
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.6.2
@@ -96,7 +144,7 @@ jobs:
         #if: startsWith(github.ref, 'refs/tags/')
         with:
           name: "Latest 36.04 Builds"
-          body: "These are the builds that were compiled during the last push or merge."
+          body: "These are the builds that were compiled during the last push or merge. macOS builds are compiled for Intel and will run under Rosetta."
           prerelease: true
           draft: false
           tag_name: "latest"

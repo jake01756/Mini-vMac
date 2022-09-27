@@ -147,6 +147,8 @@ jobs:
            mkdir -p dep
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo '#define cur_ide gbk_ide_ccc' >> setup/CONFIGUR.i
+           more setup/CONFIGUR.i
            sed -i 's/WriteDestFileLn("mk_COptions = -c");/WriteDestFileLn("mk_COptions = -m32 -c");/g' setup/WRCCCFLS.i
            more setup/WRCCCFLS.i
       - name: Cache Build Tool

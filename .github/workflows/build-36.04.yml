@@ -135,10 +135,11 @@ jobs:
   linux86:
     runs-on: ubuntu-latest
     steps:
-      #- uses: awalsh128/cache-apt-pkgs-action@latest
-      #  with:
-      #    packages: gcc-multilib gcc-i686-linux-gnu gcc-9-i686-linux-gnu cpp-9-i686-linux-gnu cpp-i686-linux-gnu gcc-9-multilib lib32asan5 lib32atomic1 lib32gcc-9-dev lib32gomp1 lib32itm1 lib32quadmath0 lib32ubsan1 libc6-dev-i386 libc6-dev-x32 libc6-x32 libx32asan5 libx32atomic1 libx32gcc-9-dev libx32gcc-s1 libx32gomp1 libx32itm1 libx32quadmath0 libx32stdc++6 libx32ubsan1
-      #    version: 1.0
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+        # gcc-multilib
+          packages: gcc-i686-linux-gnu      
+          version: 1.0
       - name: checkout
         uses: actions/checkout@v2
         with:
@@ -163,7 +164,7 @@ jobs:
           key: ${{ runner.os }}-setup_t-linux86
       - name: build setup tool
         if: steps.cache-build-linux-tool32.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -m32 -o setup_t
+        run: gcc setup/tool.c -o setup_t
       
       - name: build linux x86 mPlus
         run: |

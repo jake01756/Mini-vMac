@@ -149,7 +149,7 @@ jobs:
           key: ${{ runner.os }}-setup_t-linux32
       - name: build setup tool
         if: steps.cache-build-linux-tool32.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -o setup_t
+        run: gcc setup/tool.c -m32 -o setup_t
       - name: configure dev options
         run: |
            mkdir -p downloads
@@ -271,7 +271,7 @@ jobs:
           key: ${{ runner.os }}-setup_t-linuxppc
       - name: build setup tool
         if: steps.cache-build-linux-toolppc.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -m32 -o setup_t
+        run: gcc setup/tool.c -o setup_t
       - name: configure dev options
         run: |
            mkdir -p downloads

@@ -144,7 +144,7 @@ jobs:
         with:
           ref: 36.04
       - name: Install 32-bit gcc
-        run: sudo apt install -y gcc-multilib gcc-i686-linux-gnu
+        run: sudo apt install -y gcc-multilib gcc-i686-linux-gnu gcc-9-i686-linux-gnu
       - name: configure dev options
         run: |
            mkdir -p downloads

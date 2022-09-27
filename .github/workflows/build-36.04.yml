@@ -21,7 +21,7 @@ jobs:
         id: cache-build-linux-tool
         uses: actions/cache@v3
         with:
-          path: linux-build
+          path: setup_t
           key: ${{ runner.os }}-setup_t-linux
       - name: build setup tool
         if: steps.cache-build-linux-tool.outputs.cache-hit != 'true'
@@ -57,7 +57,7 @@ jobs:
            mv minivmac minivmac-36.04-lx64-mPlus-640x512
            
            #./setup_t -t lx64 -n "minivmac-36.04-lx64-mPlus-704x450" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -hres 704 -vres 450 -sound 1 -drives 12 > setup.sh
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mPlus-704x450" -m Plus -hres 704 -vres 450 -depth 5 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lx64 -n "minivmac-36.04-lx64-mPlus-704x450" -m Plus -hres 704 -vres 450 -sound 1 -drives 12 > setup.sh
            . setup.sh
            make
            mv minivmac minivmac-36.04-lx64-mPlus-704x450

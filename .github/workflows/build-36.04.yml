@@ -271,7 +271,7 @@ jobs:
           key: ${{ runner.os }}-setup_t-linuxppc
       - name: build setup tool
         if: steps.cache-build-linux-toolppc.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -o setup_t
+        run: gcc setup/tool.c -m32 -o setup_t
       - name: configure dev options
         run: |
            mkdir -p downloads
@@ -500,7 +500,7 @@ jobs:
         with: 
           name: linuxppc-builds
           path: minivmac-36.04-*
-  macos:
+  macos-intel:
     runs-on: macos-latest
     steps:
       - name: checkout
@@ -540,7 +540,7 @@ jobs:
           if-no-files-found: error
   
   release:
-    needs: [macos, linux64, linux86, linuxppc, linuxarm]
+    needs: [macos-intel, linux64, linux86, linuxppc, linuxarm]
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux 64 Builds

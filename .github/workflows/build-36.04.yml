@@ -141,6 +141,16 @@ jobs:
           ref: 36.04
       - name: Install 32-bit gcc
         run: sudo apt install -y gcc-multilib
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           mkdir -p dep
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_ccc /* Generic command line c compiler */" >> setup/CONFIGUR.i
+           curl -LJo dep/gcc.sh https://pastebin.com/raw/L02Ygvz3 
+           chmod +x dep/gcc.sh
+           export PATH="$HOME/dep:$PATH"
       - name: Cache Build Tool
         id: cache-build-linux-tool32
         uses: actions/cache@v3
@@ -150,15 +160,7 @@ jobs:
       - name: build setup tool
         if: steps.cache-build-linux-tool32.outputs.cache-hit != 'true'
         run: gcc setup/tool.c -m32 -o setup_t
-      - name: configure dev options
-        run: |
-           mkdir -p downloads
-           mkdir -p dep
-           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
-           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           curl -LJo dep/gcc.sh https://pastebin.com/raw/L02Ygvz3 
-           chmod +x dep/gcc.sh
-           export PATH="$HOME/dep:$PATH"
+      
       - name: build linux x86 mPlus
         run: |
            #

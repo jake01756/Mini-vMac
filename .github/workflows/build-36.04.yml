@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: 36.04
-      #- name: install required packages 
+     #- name: install required packages 
        # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: build setup tool
         run: gcc setup/tool.c -o setup_t

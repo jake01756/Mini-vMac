@@ -146,7 +146,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: setup_t
-          key: ${{ runner.os }}-setup_t-linux32
+          key: ${{ runner.os }}-setup_t-linux86
       - name: build setup tool
         if: steps.cache-build-linux-tool32.outputs.cache-hit != 'true'
         run: gcc setup/tool.c -m32 -o setup_t
@@ -546,7 +546,7 @@ jobs:
           path: macos-builds.zip
           if-no-files-found: error
   windows:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -556,7 +556,7 @@ jobs:
         id: cache-build-win-tool
         uses: actions/cache@v3
         with:
-          path: tool.exe
+          path: setup_t
           key: ${{ runner.os }}-tool.exe
       - name: build setup tool
         if: steps.cache-build-win-tool.outputs.cache-hit != 'true'

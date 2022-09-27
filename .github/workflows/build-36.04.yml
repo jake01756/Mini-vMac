@@ -156,7 +156,7 @@ jobs:
            mkdir -p dep
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           curl -LJO https://pastebin.com/raw/L02Ygvz3 /dep/gcc.sh
+           curl -LJo dep/gcc.sh https://pastebin.com/raw/L02Ygvz3 
            chmod +x dep/gcc.sh
            export PATH="$HOME/dep:$PATH"
       - name: build linux x86 mPlus

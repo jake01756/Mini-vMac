@@ -153,9 +153,12 @@ jobs:
       - name: configure dev options
         run: |
            mkdir -p downloads
+           mkdir -p dep
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           echo #define cur_ide gbk_ide_mvc >> setup/CONFIGUR.i
+           echo "/bin/gcc -m32 $*" >> dep/gcc.sh
+           chmod +x dep/gcc.sh
+           export PATH="$HOME/dep:$PATH"
       - name: build linux x86 mPlus
         run: |
            #

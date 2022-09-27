@@ -135,6 +135,10 @@ jobs:
   linux86:
     runs-on: ubuntu-latest
     steps:
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: gcc-multilib gcc-i686-linux-gnu
+          version: 1.0
       - name: checkout
         uses: actions/checkout@v2
         with:

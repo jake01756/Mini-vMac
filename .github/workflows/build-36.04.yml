@@ -155,7 +155,7 @@ jobs:
            mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+           echo #define cur_ide gbk_ide_mvc >> setup/CONFIGUR.i
       - name: build linux x86 mPlus
         run: |
            #
@@ -557,10 +557,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: setup_t
-          key: ${{ runner.os }}-tool.exe
+          key: ${{ runner.os }}-setup_t
       - name: build setup tool
         if: steps.cache-build-win-tool.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -o tool.exe
+        run: gcc setup/tool.c -o setup_t
       - name: configure dev options
         run: |
            mkdir -p downloads
@@ -570,7 +570,7 @@ jobs:
       - name: build win64
         run: |
            #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            sh setup.sh
            cmake
            copy minivmac minivmac-36.04-win64-mII

@@ -538,7 +538,7 @@ jobs:
           if-no-files-found: error
   
   release:
-    needs: [macos, linux64, linux32, linuxppc, linuxarm]
+    needs: [macos, linux64, linux86, linuxppc, linuxarm]
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux 64 Builds

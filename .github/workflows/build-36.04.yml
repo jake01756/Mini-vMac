@@ -627,7 +627,7 @@ jobs:
           path: downloads/*
           
   release:
-    needs: [macos-intel, linux64, linux86, linuxppc, linuxarm]
+    needs: [macos-intel, linux64, linux86, linuxppc, linuxarm, windows]
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux 64 Builds
@@ -655,6 +655,11 @@ jobs:
         with:
           name: macos-builds
           path: builds/macos/
+      - name: Download Windows Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: windows-builds
+          path: builds/windows/
       - name: Release
         uses: softprops/action-gh-release@v1
         #if: startsWith(github.ref, 'refs/tags/')

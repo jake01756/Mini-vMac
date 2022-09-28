@@ -138,7 +138,7 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
         # gcc-multilib
-          packages: gcc-multilib-i686-linux-gnu xorg-dev
+          packages: gcc-multilib-i686-linux-gnu xorg-dev libx11-dev:i386
           version: 1.0
       - name: checkout
         uses: actions/checkout@v2

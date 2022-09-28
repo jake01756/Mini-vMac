@@ -135,6 +135,8 @@ jobs:
   linux86:
     runs-on: ubuntu-latest
     steps:
+      - name: enable i386 arch
+        run: sudo dpkg --add-architecture i386 && sudo apt update
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
         # gcc-multilib

@@ -600,7 +600,7 @@ jobs:
            mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           #sudo apt install gcc-mingw-w64 mingw-w64
+           sudo apt install gcc-mingw-w64 mingw-w64
            cp src/ICONAPPW.ico /home/runner/work/Mini-vMac/Mini-vMac/
       - name: build win64
         run: |

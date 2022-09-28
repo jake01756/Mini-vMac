@@ -581,6 +581,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: 36.04
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+        # gcc-multilib
+          packages: gcc-mingw-w64 mingw-w64
+          version: 1.0
       - name: Cache Build Tool
         id: cache-build-win-tool
         uses: actions/cache@v3
@@ -595,7 +600,8 @@ jobs:
            mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           sudo apt install gcc-mingw-w64
+           #sudo apt install gcc-mingw-w64 mingw-w64
+           cp src/ICONAPPW.ico /home/runner/work/Mini-vMac/Mini-vMac/
       - name: build win64
         run: |
            #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh

@@ -2,7 +2,7 @@ name: build-36.04
 
 on:
   push:
-    branches: [ "36.04","jake01756-actions" ]
+    branches: [ "36.04" ]
   pull_request:
     branches: [ "36.04" ]
   workflow_dispatch:
@@ -560,6 +560,20 @@ jobs:
           name: macos-builds
           path: macos-builds.zip
           if-no-files-found: error
+  macos-arm:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - name: Cache Build Tool
+        id: cache-build-macos-tool
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-macosarm
+        # -t mcar
   windows:
     runs-on: ubuntu-latest
     steps:

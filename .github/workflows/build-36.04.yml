@@ -136,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: enable i386 arch
-        run: sudo dpkg --add-architecture i386 && sudo apt update
+        run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libx11-dev:i386
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
         # gcc-multilib
@@ -586,20 +586,25 @@ jobs:
         run: |
            #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           sh setup.sh
+           . setup.sh
            cmake
-           copy minivmac minivmac-36.04-win64-mII
+           cp minivmac minivmac-36.04-win64-mII
       - name: build win32
         run: |
            #./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            tool.exe -t wx86 -n "minivmac-36.04-win86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
-           sh setup.sh
+           . setup.sh
            cmake
-           copy minivmac minivmac-36.04-win86-mII
+           cp minivmac minivmac-36.04-win86-mII
       - name: moving files
         run: |
-          copy minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
-          copy minivmac-36.04-win86-mII downloads/minivmac-36.04-win86-mII
+          cp minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
+          cp minivmac-36.04-win86-mII downloads/minivmac-36.04-win86-mII
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: windows-builds
+          path: downloads/*
           
   release:
     needs: [macos-intel, linux64, linux86, linuxppc, linuxarm]

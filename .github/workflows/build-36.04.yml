@@ -627,7 +627,7 @@ jobs:
           path: downloads/*
           
   release:
-    needs: [macos-intel, linux64, linux86, linuxppc, linuxarm, windows]
+    needs: [macos-intel, macos-arm, linux64, linux86, linuxppc, linuxarm, windows]
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux 64 Builds

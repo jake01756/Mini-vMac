@@ -1,27 +1,45 @@
+name: build-custom
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      target:
+        description: 'Your computer runs:'
         required: true
-        default: 'warning' 
+        default: 'Microsoft Windows - x86-64' 
         type: choice
         options:
-        - info
-        - warning
-        - debug 
+        - Microsoft Windows - x86-64
+        - Microsoft Windows - x86
+        - Linux - x86-64
+        - Linux - x86
+        - macOS - Intel
+        - macOS - Apple Silicon
+      emu-target:
+        description: 'You want to emulate a:'
+        required: true
+        default: 'Macintosh Plus' 
+        type: choice
+        options:
+        - Macintosh Plus
+        - Macinstosh II
+      
+      screensize:
+        description: 'Type in a screen size (ex. 800x600):'
+        required: true 
+        type: string
+      branch:
+        description: 'Mini vMac Branch:'
+        required: true
+        default: '36' 
+        type: choice
+        options:
+        - 36
+        - 37.03 - Beta
       print_tags:
         description: 'True to print to STDOUT'
         required: true 
         type: boolean 
-      tags:
-        description: 'Test scenario tags'
-        required: true 
-        type: string
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
-        required: true 
+
 
 jobs:
   print-tag:

@@ -2,7 +2,7 @@ name: build-36.04
 
 on:
   push:
-    branches: [ "36.04", "jake01756-actions" ]
+    branches: [ "36.04", "master" ]
   pull_request:
     branches: [ "36.04" ]
   workflow_dispatch:

@@ -155,6 +155,9 @@ jobs:
            echo '#define cur_ide gbk_ide_mvc' >> setup/CONFIGUR.i
            more setup/CONFIGUR.i
            sed -i 's/WriteCStrToDestFile("$(my_prefix)gcc -c");/WriteCStrToDestFile("$(my_prefix)gcc -m32 -c");/g' setup/WRMVCFLS.i
+           sed -i 's/WriteDestFileLn("my_prefix = i386-pc-linux-");/WriteDestFileLn("my_prefix = i686-pc-linux-");/g' setup/WRMVCFLS.i
+           			
+
            more setup/WRMVCFLS.i
       - name: Cache Build Tool
         id: cache-build-linux-tool32

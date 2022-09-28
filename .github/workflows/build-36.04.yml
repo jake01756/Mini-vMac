@@ -138,14 +138,14 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
         # gcc-multilib
-          packages: gcc-i686-linux-gnu      
+          packages: gcc-multilib-i686-linux-gnu
           version: 1.0
       - name: checkout
         uses: actions/checkout@v2
         with:
           ref: 36.04
-      - name: Install 32-bit gcc
-        run: sudo apt install -y gcc-i686-linux-gnu
+      #- name: Install 32-bit gcc
+      #  run: sudo apt install -y gcc-i686-linux-gnu
       - name: configure dev options
         run: |
            mkdir -p downloads

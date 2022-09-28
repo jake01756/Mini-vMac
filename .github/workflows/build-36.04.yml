@@ -539,7 +539,15 @@ jobs:
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build mac64
         run: |
-           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x512" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x400" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x400" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh
+           make
+           mkdir builds
+           cp -r minivmac.app minivmac-36.04-mc64-mII-640x400.app
+           mv minivmac-36.04-mc64-mII-640x400.app builds/minivmac-36.04-mc64-mII-640x400.app
+           rm -r minivmac.app
+           
            ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x512" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
            . setup.sh
            make

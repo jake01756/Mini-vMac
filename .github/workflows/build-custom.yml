@@ -1,3 +1,4 @@
+name: build-custom
 on:
   workflow_dispatch:
     inputs:
@@ -26,6 +27,14 @@ on:
         description: 'Type in a screen size (ex. 800x600):'
         required: true 
         type: string
+      branch:
+        description: 'Mini vMac Branch:'
+        required: true
+        default: '36' 
+        type: choice
+        options:
+        - 36
+        - 37.03 - Beta
       print_tags:
         description: 'True to print to STDOUT'
         required: true 

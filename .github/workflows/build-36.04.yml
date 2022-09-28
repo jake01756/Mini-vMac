@@ -513,7 +513,7 @@ jobs:
       - name: uploading
         uses: actions/upload-artifact@v2
         with: 
-          name: linuxppc-builds
+          name: linuxarm-builds
           path: minivmac-36.04-*
   macos-intel:
     runs-on: macos-latest

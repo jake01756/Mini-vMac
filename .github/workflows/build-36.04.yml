@@ -610,10 +610,10 @@ jobs:
         with:
           name: linux64-builds
           path: builds/linux/
-      - name: Download Linux 32 Builds
+      - name: Download Linux 86 Builds
         uses: actions/download-artifact@v3.0.0
         with:
-          name: linux32-builds
+          name: linux86-builds
           path: builds/linux/
       - name: Download Linux PPC Builds
         uses: actions/download-artifact@v3.0.0

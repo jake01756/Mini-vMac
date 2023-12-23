@@ -92,6 +92,10 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
+      #- name: Setup latest Alpine Linux
+      #  uses: jirutka/setup-alpine@v1
+      #  with:
+      #    arch: x86
       - name: enable i386 arch
         run: sudo dpkg --add-architecture i386 && sudo apt update
       - uses: awalsh128/cache-apt-pkgs-action@latest
@@ -107,17 +111,19 @@ jobs:
       #  run: sudo apt install -y gcc-i686-linux-gnu
       - name: configure dev options
         run: |
-           CC="gcc -m32"
-           CFLAGS="-m32" 
+
            mkdir -p downloads
            mkdir -p dep
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+
+           sed -i 's/WriteDestFileLn("mk_COptions = -c");/WriteDestFileLn("mk_COptions = -m32 -c -I cfg/ -I src/");/' setup/WRCCCFLS.i
+
+           #sed -i '/^mk_COptionsCommon/s/$/ -m32/'
            #echo '#define cur_ide gbk_ide_mvc' >> setup/CONFIGUR.i
            #more setup/CONFIGUR.i
-           #sed -i 's/WriteCStrToDestFile("$(my_prefix)gcc -c");/WriteCStrToDestFile("$(my_prefix)g -c");/g' setup/WRMVCFLS.i
-           #sed -i 's/WriteDestFileLn("my_prefix = i386-pc-linux-");/WriteDestFileLn("my_prefix = i686-linux-gnu-");/g' setup/WRMVCFLS.i
-           			
+           #sed -i 's/WriteCStrToDestFile("$(my_prefix)gcc -c");/WriteCStrToDestFile("$(my_prefix)g -c");/g' setup/WRCCCFLS.i
+           #sed -i 's/WriteDestFileLn("my_prefix = i386-pc-linux-");/WriteDestFileLn("my_prefix = i686-linux-gnu-");/g' setup/WRMVCFLS.i	
            #more setup/WRMVCFLS.i
       - name: Cache Build Tool
         id: cache-build-linux-tool32
@@ -127,7 +133,7 @@ jobs:
           key: ${{ runner.os }}-setup_t-linux86
       - name: build setup tool
         if: steps.cache-build-linux-tool32.outputs.cache-hit != 'true'
-        run: gcc setup/tool.c -o setup_t
+        run: gcc -m32 setup/tool.c -o setup_t
       
       - name: build linux x86 mPlus
         run: |

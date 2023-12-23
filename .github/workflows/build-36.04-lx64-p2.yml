@@ -58,6 +58,7 @@ jobs:
             echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
             echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: Cache Build
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         uses: actions/cache@v3
         id: cache-build
         with:

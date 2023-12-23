@@ -1,4 +1,4 @@
-name: build-36.04
+name: build-36.04-lx64-p1
 
 on:
   push:
@@ -13,7 +13,8 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
+        #model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
+        model: [128K, 512Ke, Plus]
         hres: [512, 640, 640, 640, 704, 800, 832, 960, 960, 1024]
         vres: [384, 400, 480, 512, 450, 600, 525, 540, 600, 768]
         depth: [0,5]
@@ -34,13 +35,6 @@ jobs:
             depth: 5 
           - model: II
             depth: 0
-        include:
-          - hres: 512
-            vres: 384
-          - hres: 640
-            vres: 400
-          - hres: 640
-            vres: 512
     steps:
       - name: checkout
         if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}

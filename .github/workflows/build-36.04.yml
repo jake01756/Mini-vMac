@@ -19,6 +19,8 @@ jobs:
             depth: 5
           - model: 512Ke
             depth: 5 
+          - model: Plus
+            depth: 5
           - model: SE
             depth: 5 
           - model: Classic
@@ -172,5 +174,40 @@ jobs:
           path: minivmac-36.04-*
  
     
-          
-  
+  release_linux:
+    needs: [linux64, linux86]
+    #needs: [linux64, linux86, linuxppc, linuxarm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux 64 Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linux64-builds
+          path: builds/linux/
+      - name: Download Linux 86 Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linux86-builds
+          path: builds/linux/
+      # - name: Download Linux PPC Builds
+      #   uses: actions/download-artifact@v3.0.0
+      #   with:
+      #     name: linuxppc-builds
+      #     path: builds/linux/
+      # - name: Download Linux ARM Builds
+      #   uses: actions/download-artifact@v3.0.0
+      #   with:
+      #     name: linuxarm-builds
+      #     path: builds/linux/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        #if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Latest 36.04 Linux Builds"
+          body: "These are the linux builds that were compiled during the last push or merge."
+          prerelease: true
+          draft: false
+          tag_name: "latest-linux"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          files: |
+            builds/linux/*

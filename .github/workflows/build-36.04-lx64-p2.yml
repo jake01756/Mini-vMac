@@ -1,10 +1,10 @@
 name: build-36.04-lx64-p2
 
 on:
-  workflows: ["build-36.04-lx64-p1"]
+  workflow_run:
+    workflows: ["build-36.04-lx64-p1"]
     types:
       - completed
-  workflow_dispatch:
 
 jobs:
   linux64:

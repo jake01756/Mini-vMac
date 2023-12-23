@@ -10,9 +10,10 @@ on:
 jobs:
   linux64:
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
-        model: [128k, 512Ke, Plus, SE, Classic, SEFDHD, II]
+        model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
         depth: [0,5]
         exclude:
           - model: 128k

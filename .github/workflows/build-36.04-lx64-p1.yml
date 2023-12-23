@@ -58,8 +58,14 @@ jobs:
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
-      - name: build linux x64 mPlus
-        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
+      - name: Cache Build
+        uses: actions/cache@v3
+        id: cache-build
+        with:
+          path: minivmac-36.04-*
+          key: ${{ runner.os }}-build-cache-${{ matrix.model }}-${{ matrix.hres }}-${{ matrix.vres }}
+      - name: build linux x64
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}  && steps.cache-build.outputs.cache-hit != 'true'
         run: |
            ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-512x484" -m ${{ matrix.model }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -depth ${{ matrix.depth }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
            . setup.sh && make

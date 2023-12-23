@@ -31,7 +31,7 @@ jobs:
             depth: 0
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: 36.04
      #- name: install required packages 
@@ -83,7 +83,7 @@ jobs:
            mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x600
            
       - name: uploading
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: linux64-builds
           path: minivmac-36.04-*
@@ -98,7 +98,7 @@ jobs:
           packages: gcc-multilib-i686-linux-gnu xorg-dev libx11-dev:i386
           version: 1.1
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: 36.04
       #- name: Install 32-bit gcc
@@ -168,7 +168,7 @@ jobs:
            mv minivmac minivmac-36.04-lx86-mPlus-960x600
            
       - name: uploading
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: linux86-builds
           path: minivmac-36.04-*
@@ -180,22 +180,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux 64 Builds
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v3
         with:
           name: linux64-builds
           path: builds/linux/
       - name: Download Linux 86 Builds
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v3
         with:
           name: linux86-builds
           path: builds/linux/
       # - name: Download Linux PPC Builds
-      #   uses: actions/download-artifact@v3.0.0
+      #   uses: actions/download-artifact@v3
       #   with:
       #     name: linuxppc-builds
       #     path: builds/linux/
       # - name: Download Linux ARM Builds
-      #   uses: actions/download-artifact@v3.0.0
+      #   uses: actions/download-artifact@v3
       #   with:
       #     name: linuxarm-builds
       #     path: builds/linux/

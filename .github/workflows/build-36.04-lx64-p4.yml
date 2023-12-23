@@ -1,8 +1,8 @@
-name: build-36.04-lx64-p2
+name: build-36.04-lx64-p4
 
 on:
   workflow_run:
-    workflows: ["build-36.04-lx64-p1"]
+    workflows: ["build-36.04-lx64-p3"]
     types:
       - completed
 
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         #model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
-        model: [Plus, SE]
+        model: [II]
         hres: [512, 640, 640, 640, 704, 800, 832, 960, 960, 1024]
         vres: [384, 400, 480, 512, 450, 600, 525, 540, 600, 768]
         depth: [0,5]
@@ -43,17 +43,15 @@ jobs:
      #- name: install required packages 
        # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: Cache Build Tool
-        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         id: cache-build-linux-tool64
         uses: actions/cache@v3
         with:
           path: setup_t
           key: ${{ runner.os }}-setup_t-linux64
       - name: build setup tool
-        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }} && steps.cache-build-linux-tool64.outputs.cache-hit != 'true'
+        if: steps.cache-build-linux-tool64.outputs.cache-hit != 'true'
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
-        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         run: |
            mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i

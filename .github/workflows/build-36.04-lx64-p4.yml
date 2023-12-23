@@ -40,18 +40,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: 36.04
-     #- name: install required packages 
-       # run: sudo apt install mingw-w64 gcc-mingw-w64-i686 clang
       - name: Cache Build Tool
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         id: cache-build-linux-tool64
         uses: actions/cache@v3
         with:
           path: setup_t
           key: ${{ runner.os }}-setup_t-linux64
       - name: build setup tool
-        if: steps.cache-build-linux-tool64.outputs.cache-hit != 'true'
+        if: (${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}) && steps.cache-build-linux-tool64.outputs.cache-hit != 'true'
         run: gcc setup/tool.c -o setup_t
       - name: configure dev options
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         run: |
            mkdir -p downloads
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
@@ -64,28 +64,8 @@ jobs:
            . setup.sh && make
            mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-${{ matrix.hres }}x${{ matrix.vres }}
            #./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-${{ matrix.hres }}x${{ matrix.vres }}" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m ${{ matrix.model }} -depth ${{ matrix.depth }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
-          
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-640x512" -m ${{ matrix.model }} -hres 640 -vres 512 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-640x512
-            
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-704x450" -m ${{ matrix.model }} -hres 704 -vres 450 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-704x450
-            
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-832x525" -m ${{ matrix.model }} -hres 832 -vres 525 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-832x525
-            
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x540" -m ${{ matrix.model }} -hres 960 -vres 540 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x540
-            
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x600" -m ${{ matrix.model }} -hres 960 -vres 600 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x600
-           
       - name: uploading
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         uses: actions/upload-artifact@v3
         with: 
           name: linux64-builds

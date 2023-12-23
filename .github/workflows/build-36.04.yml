@@ -117,7 +117,7 @@ jobs:
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
 
-           sed -i 's/WriteDestFileLn("mk_COptions = -c");/WriteDestFileLn("mk_COptions = -m32 -c -I cfg/ -I src/");/' setup/WRCCCFLS.i
+           sed -i 's/WriteDestFileLn("mk_COptions = -c");/WriteDestFileLn("mk_COptions = -m32 -c -I cfg\/ -I src\/");/' setup/WRCCCFLS.i
 
            #sed -i '/^mk_COptionsCommon/s/$/ -m32/'
            #echo '#define cur_ide gbk_ide_mvc' >> setup/CONFIGUR.i

@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         #model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
-        model: [SE, Classic, SEFDHD, II]
+        model: [Plus, SE, Classic, SEFDHD, II]
         hres: [512, 640, 640, 640, 704, 800, 832, 960, 960, 1024]
         vres: [384, 400, 480, 512, 450, 600, 525, 540, 600, 768]
         depth: [0,5]

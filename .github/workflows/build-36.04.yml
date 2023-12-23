@@ -10,6 +10,9 @@ on:
 jobs:
   linux64:
     runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -120,6 +123,9 @@ jobs:
           path: minivmac-36.04-*
   linux86:
     runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: true
     steps:
       - name: enable i386 arch
         run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libx11-dev:i386
@@ -245,6 +251,9 @@ jobs:
           path: minivmac-36.04-*
   linuxppc:
     runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -353,6 +362,9 @@ jobs:
           path: minivmac-36.04-*
   linuxarm:
     runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -461,6 +473,9 @@ jobs:
           path: minivmac-36.04-*
   macos-intel:
     runs-on: macos-latest
+    concurrency:
+      group: macos
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -511,6 +526,9 @@ jobs:
           if-no-files-found: error
   macos-arm:
     runs-on: macos-latest
+    concurrency:
+      group: macos
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -525,6 +543,9 @@ jobs:
         # -t mcar
   windows:
     runs-on: ubuntu-latest
+    concurrency:
+      group: windows
+      cancel-in-progress: true
     steps:
       - name: checkout
         uses: actions/checkout@v2

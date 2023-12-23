@@ -67,30 +67,26 @@ jobs:
            . setup.sh && make
            mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-${{ matrix.hres }}x${{ matrix.vres }}
            #./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-512x384" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m ${{ matrix.model }} -depth ${{ matrix.depth }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
-
-            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-640x400" -m ${{ matrix.model }} -hres 640 -vres 400 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-            #  . setup.sh && make
-            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-640x400
           
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-640x512" -m ${{ matrix.model }} -hres 640 -vres 512 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-           . setup.sh && make
-           mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-640x512
-           
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-704x450" -m ${{ matrix.model }} -hres 704 -vres 450 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-           . setup.sh && make
-           mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-704x450
-           
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-832x525" -m ${{ matrix.model }} -hres 832 -vres 525 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-           . setup.sh && make
-           mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-832x525
-           
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x540" -m ${{ matrix.model }} -hres 960 -vres 540 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-           . setup.sh && make
-           mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x540
-           
-           ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x600" -m ${{ matrix.model }} -hres 960 -vres 600 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
-           . setup.sh && make
-           mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x600
+            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-640x512" -m ${{ matrix.model }} -hres 640 -vres 512 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
+            #  . setup.sh && make
+            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-640x512
+            
+            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-704x450" -m ${{ matrix.model }} -hres 704 -vres 450 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
+            #  . setup.sh && make
+            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-704x450
+            
+            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-832x525" -m ${{ matrix.model }} -hres 832 -vres 525 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
+            #  . setup.sh && make
+            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-832x525
+            
+            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x540" -m ${{ matrix.model }} -hres 960 -vres 540 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
+            #  . setup.sh && make
+            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x540
+            
+            #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-960x600" -m ${{ matrix.model }} -hres 960 -vres 600 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
+            #  . setup.sh && make
+            #  mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-960x600
            
       - name: uploading
         uses: actions/upload-artifact@v3

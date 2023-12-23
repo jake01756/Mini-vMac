@@ -10,9 +10,6 @@ on:
 jobs:
   linux64:
     runs-on: ubuntu-latest
-    concurrency:
-      group: linux
-      cancel-in-progress: false
     strategy:
       matrix:
         model: [128k, 512Ke, Plus, SE, Classic, SEFDHD, II]
@@ -90,9 +87,6 @@ jobs:
           path: minivmac-36.04-*
   linux86:
     runs-on: ubuntu-latest
-    concurrency:
-      group: linux
-      cancel-in-progress: false
     steps:
       - name: enable i386 arch
         run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libx11-dev:i386

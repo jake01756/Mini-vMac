@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         model: [128K, 512Ke, Plus, SE, Classic, SEFDHD, II]
+        hres: [512, 640, 640, 640, 704, 800, 832, 960, 960, 1024]
+        vres: [384, 400, 480, 512, 450, 600, 525, 540, 600, 768]
         depth: [0,5]
         sound: [1]
         drives: [6]
@@ -41,6 +43,7 @@ jobs:
             vres: 512
     steps:
       - name: checkout
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         uses: actions/checkout@v4
         with:
           ref: 36.04
@@ -62,11 +65,12 @@ jobs:
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
            echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
       - name: build linux x64 mPlus
+        if: ${{ matrix.hres == 512 && matrix.vres == 384 ||  matrix.hres == 640 && matrix.vres == 400 || matrix.hres == 640 && matrix.vres == 512 || matrix.hres == 704 && matrix.vres == 450 || matrix.hres == 800 && matrix.vres == 600 || matrix.hres == 832 && matrix.vres == 525 || matrix.hres == 960 && matrix.vres == 540 || matrix.hres == 960 && matrix.vres == 768 || matrix.hres == 1024 && matrix.vres == 600 }}
         run: |
            ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-512x484" -m ${{ matrix.model }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -depth ${{ matrix.depth }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
            . setup.sh && make
            mv minivmac minivmac-36.04-lx64-${{ matrix.model }}-${{ matrix.hres }}x${{ matrix.vres }}
-           #./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-512x384" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m ${{ matrix.model }} -depth ${{ matrix.depth }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
+           #./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-${{ matrix.hres }}x${{ matrix.vres }}" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m ${{ matrix.model }} -depth ${{ matrix.depth }} -hres ${{ matrix.hres }} -vres ${{ matrix.vres }} -sound ${{ matrix.sound }} -drives ${{ matrix.drives }} > setup.sh
           
             #  ./setup_t -t lx64 -n "minivmac-36.04-lx64-m${{ matrix.model }}-640x512" -m ${{ matrix.model }} -hres 640 -vres 512 -depth ${{ matrix.depth }} -sound 1 -drives 12 > setup.sh
             #  . setup.sh && make

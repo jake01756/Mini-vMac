@@ -111,13 +111,13 @@ jobs:
            mkdir -p dep
            echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
            echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
-           echo '#define cur_ide gbk_ide_mvc' >> setup/CONFIGUR.i
-           more setup/CONFIGUR.i
+           #echo '#define cur_ide gbk_ide_mvc' >> setup/CONFIGUR.i
+           #more setup/CONFIGUR.i
            #sed -i 's/WriteCStrToDestFile("$(my_prefix)gcc -c");/WriteCStrToDestFile("$(my_prefix)g -c");/g' setup/WRMVCFLS.i
-           sed -i 's/WriteDestFileLn("my_prefix = i386-pc-linux-");/WriteDestFileLn("my_prefix = i686-linux-gnu-");/g' setup/WRMVCFLS.i
+           #sed -i 's/WriteDestFileLn("my_prefix = i386-pc-linux-");/WriteDestFileLn("my_prefix = i686-linux-gnu-");/g' setup/WRMVCFLS.i
            			
 
-           more setup/WRMVCFLS.i
+           #more setup/WRMVCFLS.i
       - name: Cache Build Tool
         id: cache-build-linux-tool32
         uses: actions/cache@v3

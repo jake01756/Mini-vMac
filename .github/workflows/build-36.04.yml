@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: linux
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: linux
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: enable i386 arch
         run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libx11-dev:i386
@@ -253,7 +253,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: linux
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -364,7 +364,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: linux
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -475,7 +475,7 @@ jobs:
     runs-on: macos-latest
     concurrency:
       group: macos
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -528,7 +528,7 @@ jobs:
     runs-on: macos-latest
     concurrency:
       group: macos
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -545,7 +545,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: windows
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: checkout
         uses: actions/checkout@v2

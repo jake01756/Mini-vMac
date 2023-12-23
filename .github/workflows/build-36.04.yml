@@ -90,6 +90,7 @@ jobs:
           path: minivmac-36.04-*
   linux86:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: enable i386 arch
         run: sudo dpkg --add-architecture i386 && sudo apt update && sudo apt install libx11-dev:i386

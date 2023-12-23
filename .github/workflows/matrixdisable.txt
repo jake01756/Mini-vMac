@@ -1,0 +1,312 @@
+ linuxppc:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - name: Cache Build Tool
+        id: cache-build-linux-toolppc
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-setup_t-linuxppc
+      - name: build setup tool
+        if: steps.cache-build-linux-toolppc.outputs.cache-hit != 'true'
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+      - name: build linux ppc mPlus
+        run: |
+           #
+           # MAC PLUS BUILDS
+           #
+           
+            #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-512x384" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 512 -vres 384 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-512x484" -m Plus -hres 512 -vres 384 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-512x384
+           
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-640x400" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 640 -vres 400 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-640x400" -m Plus -hres 640 -vres 400 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-640x400
+          
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-640x512" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 640 -vres 512 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-640x512" -m Plus -hres 640 -vres 512 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-640x512
+           
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-704x450" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 704 -vres 450 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-704x450" -m Plus -hres 704 -vres 450 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-704x450
+           
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-832x525" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 832 -vres 525 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-832x525" -m Plus -hres 832 -vres 525 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-832x525
+           
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-960x540" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 960 -vres 540 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-960x540" -m Plus -hres 960 -vres 540 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-960x540
+           
+           #./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-960x600" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 960 -vres 600 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t lppc -n "minivmac-36.04-lppc-mPlus-960x600" -m Plus -hres 960 -vres 600 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-lppc-mPlus-960x600
+
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: linuxppc-builds
+          path: minivmac-36.04-*
+  linuxarm:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: linux
+      cancel-in-progress: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - name: Cache Build Tool
+        id: cache-build-linux-toolarm
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-setup_t-linuxarm
+      - name: build setup tool
+        if: steps.cache-build-linux-toolarm.outputs.cache-hit != 'true'
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+      - name: build linux arm mPlus
+        run: |
+           #
+           # MAC PLUS BUILDS
+           #
+           
+            #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-512x384" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 512 -vres 384 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-512x484" -m Plus -hres 512 -vres 384 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-512x384
+           
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-640x400" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 640 -vres 400 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-640x400" -m Plus -hres 640 -vres 400 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-640x400
+          
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-640x512" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 640 -vres 512 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-640x512" -m Plus -hres 640 -vres 512 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-640x512
+           
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-704x450" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 704 -vres 450 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-704x450" -m Plus -hres 704 -vres 450 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-704x450
+           
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-832x525" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 832 -vres 525 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-832x525" -m Plus -hres 832 -vres 525 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-832x525
+           
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-960x540" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 960 -vres 540 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-960x540" -m Plus -hres 960 -vres 540 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-960x540
+           
+           #./setup_t -t larm -n "minivmac-36.04-larm-mPlus-960x600" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m Plus -depth 0 -hres 960 -vres 600 -sound 1 -drives 12 > setup.sh
+           ./setup_t -t larm -n "minivmac-36.04-larm-mPlus-960x600" -m Plus -hres 960 -vres 600 -depth 0 -sound 1 -drives 12 > setup.sh
+           . setup.sh && make
+           mv minivmac minivmac-36.04-larm-mPlus-960x600
+           
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: linuxarm-builds
+          path: minivmac-36.04-*
+  macos-intel:
+    runs-on: macos-latest
+    concurrency:
+      group: macos
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - name: Cache Build Tool
+        id: cache-build-macos-tool
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-macos
+      - name: build setup tool
+        if: steps.cache-build-macos-tool.outputs.cache-hit != 'true'
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           echo "#define cur_ide gbk_ide_mgw" >> setup/CONFIGUR.i
+      - name: build mac64
+        run: |
+           #./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x400" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x400" -m II -hres 640 -vres 400 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh && make
+           mkdir builds
+           cp -r minivmac.app minivmac-36.04-mc64-mII-640x400.app
+           mv minivmac-36.04-mc64-mII-640x400.app builds/minivmac-36.04-mc64-mII-640x400.app
+           rm -r minivmac.app
+           
+           ./setup_t -t mc64 -n "minivmac-36.04-mc64-mII-640x512" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh && make
+           cp -r minivmac.app minivmac-36.04-mc64-mII-640x512.app
+           mv minivmac-36.04-mc64-mII-640x512.app builds/minivmac-36.04-mc64-mII-640x512.app
+           rm -r minivmac.app
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.6.2
+        with:
+          filename: macos-builds.zip
+          path: builds
+          directory: .
+          type: zip
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with: 
+          name: macos-builds
+          path: macos-builds.zip
+          if-no-files-found: error
+  macos-arm:
+    runs-on: macos-latest
+    concurrency:
+      group: macos
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - name: Cache Build Tool
+        id: cache-build-macos-tool
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-macosarm
+        # -t mcar
+  windows:
+  runs-on: ubuntu-latest
+    concurrency:
+      group: windows
+      cancel-in-progress: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 36.04
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+        # gcc-multilib
+          packages: gcc-mingw-w64 mingw-w64
+          version: 1.0
+      - name: Cache Build Tool
+        id: cache-build-win-tool
+        uses: actions/cache@v3
+        with:
+          path: setup_t
+          key: ${{ runner.os }}-setup_t
+      - name: build setup tool
+        if: steps.cache-build-win-tool.outputs.cache-hit != 'true'
+        run: gcc setup/tool.c -o setup_t
+      - name: configure dev options
+        run: |
+           mkdir -p downloads
+           echo "#define kMaintainerName \"Jake Thomas\"" > setup/CONFIGUR.i
+           echo "#define kStrHomePage \"https://github.com/jake01756/Mini-vMac\"" >> setup/CONFIGUR.i
+           sudo apt install gcc-mingw-w64 mingw-w64
+           cp src/ICONAPPW.ico /home/runner/work/Mini-vMac/Mini-vMac/
+      - name: build win64
+        run: |
+           #tool.exe -t wx64 -n "minivmac-36.04-win64-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t wx64 -n "minivmac-36.04-win64-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh && make
+           cp minivmac minivmac-36.04-win64-mII
+      - name: build win32
+        run: |
+           #./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -maintainer "Jake Thomas" -homepage "github.com/jake01756/Mini-vMac" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           ./setup_t -t wx86 -n "minivmac-36.04-win86-mII" -m II -hres 640 -vres 512 -depth 5 -sound 1 -drives 12 -mem 8M > setup.sh
+           . setup.sh && make
+           cp minivmac minivmac-36.04-win86-mII
+      - name: moving files
+        run: |
+          cp minivmac-36.04-win64-mII downloads/minivmac-36.04-win64-mII
+          cp minivmac-36.04-win86-mII downloads/minivmac-36.04-win86-mII
+      - name: uploading
+        uses: actions/upload-artifact@v2
+        with: 
+          name: windows-builds
+          path: downloads/*
+
+  release:
+    needs: [macos-intel, macos-arm, linux64, linux86, linuxppc, linuxarm, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux 64 Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linux64-builds
+          path: builds/linux/
+      - name: Download Linux 86 Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linux86-builds
+          path: builds/linux/
+      - name: Download Linux PPC Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linuxppc-builds
+          path: builds/linux/
+      - name: Download Linux ARM Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: linuxarm-builds
+          path: builds/linux/
+      - name: Download macOS Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: macos-builds
+          path: builds/macos/
+      - name: Download Windows Builds
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: windows-builds
+          path: builds/windows/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        #if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Latest 36.04 Builds"
+          body: "These are the builds that were compiled during the last push or merge. macOS builds are compiled for Intel and will run under Rosetta."
+          prerelease: true
+          draft: false
+          tag_name: "latest"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          files: |
+            builds/macos/macos-builds.zip
+            builds/linux/*
